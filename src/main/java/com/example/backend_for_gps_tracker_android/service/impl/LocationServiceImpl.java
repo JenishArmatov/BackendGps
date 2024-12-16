@@ -9,6 +9,7 @@ import com.example.backend_for_gps_tracker_android.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,15 @@ public class LocationServiceImpl implements LocationService {
         location.setLongitude(locationDto.getLongitude());
         location.setDistance(locationDto.getDistance());
         location.setUser(userService.getCurrentUser());
+        location.setTimestamp(LocalDateTime.now());
         locationRepository.save(location);
         return locationDto;
+    }
+
+    @Override
+    public List<Location> getLocations() {
+        User user = userService.getCurrentUser();
+        return user.getLocations();
     }
 
     @Override

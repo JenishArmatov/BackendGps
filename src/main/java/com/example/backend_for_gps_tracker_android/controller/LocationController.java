@@ -18,26 +18,21 @@ import java.util.List;
 public class LocationController {
     private final LocationService locationService;
 
-    /**
-     * Сохранение местоположения пользователя.
-     * @param location объект местоположения.
-     * @return сохранённое местоположение.
-     */
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<LocationDto> saveLocation(
             @RequestBody LocationDto location) {
         LocationDto savedLocation = locationService.saveLocation(location);
         return ResponseEntity.ok(savedLocation);
     }
 
-    /**
-     * Получение всех местоположений пользователя.
-     * @param userId ID пользователя.
-     * @return список местоположений.
-     */
     @GetMapping("/{userId}")
     public ResponseEntity<List<Location>> getLocationsByUserId(@PathVariable Long userId) {
         List<Location> locations = locationService.getLocationsByUserId(userId);
+        return ResponseEntity.ok(locations);
+    }
+    @GetMapping
+    public ResponseEntity<List<Location>> getLocations() {
+        List<Location> locations = locationService.getLocations();
         return ResponseEntity.ok(locations);
     }
 

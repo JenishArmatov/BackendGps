@@ -48,6 +48,8 @@ public class User implements UserDetails {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
+    @Column(name = "workTime")
+    private Long workTime;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -58,11 +60,14 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<Location> locations;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id")
     private Image avatar;
+
+
 
 
     @Override

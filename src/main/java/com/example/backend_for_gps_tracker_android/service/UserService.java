@@ -12,7 +12,7 @@ public interface UserService {
     User getCurrentUser();
     Optional<User> getById(Long id);
     User getByUsername(String username);
-    Response<UserDto> getUserResponseById(Long id);
+    UserDto getUserResponseById(Long id);
     Response<List<UserDto>> getAllUsersWithPagination(int firstPage, int pageSize, String[] sort);
     Response<UserDto> setRole(String role, Long id);
     Response<UserDto> updateUser(Long id, UserDto userDto);

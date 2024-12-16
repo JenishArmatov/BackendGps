@@ -1,10 +1,10 @@
 package com.example.backend_for_gps_tracker_android.mapper;
 
+import com.example.backend_for_gps_tracker_android.dto.LocationDto;
 import com.example.backend_for_gps_tracker_android.dto.UserDto;
+import com.example.backend_for_gps_tracker_android.entity.Location;
 import com.example.backend_for_gps_tracker_android.entity.User;
-import com.example.backend_for_gps_tracker_android.service.RoleService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,6 +32,7 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
+
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
@@ -51,15 +52,34 @@ public class UserMapper {
         if (user.getPhone() != null) {
             userDto.setPhone(user.getPhone());
         }
-        if (user.getAvatar().getId() != null) {
+        if (user.getAvatar() != null && user.getAvatar().getId() != null) {
             userDto.setAvatarId(user.getAvatar().getId());
         }
-        if (user.getLocations() != null) {
-            userDto.setLocations(user.getLocations());
+        if (user.getWorkTime() != null) {
+            userDto.setWorkTime(user.getWorkTime());
         }
+
+        // Преобразование списка locations
+        if (user.getLocations() != null) {
+            List<LocationDto> locationDtos = user.getLocations().stream()
+                    .map(location -> {
+                        LocationDto locationDto = new LocationDto();
+                        locationDto.setId(location.getId());
+                        locationDto.setLatitude(location.getLatitude());
+                        locationDto.setLongitude(location.getLongitude());
+                        locationDto.setTimestamp(location.getTimestamp());
+                        locationDto.setDistance(location.getDistance());
+                        locationDto.setUserId(location.getUser().getId());
+                        return locationDto;
+                    })
+                    .collect(Collectors.toList());
+            userDto.setLocations(locationDtos);
+        }
+
         userDto.setActive(user.isActive());
         return userDto;
     }
+
 
     /**
      * Преобразует список объектов {@link User} в список объектов {@link UserDto}.
@@ -88,6 +108,8 @@ public class UserMapper {
         if (user == null || userDto == null) {
             throw new IllegalArgumentException("User or UserDto cannot be null");
         }
+
+        // Обновляем простые поля
         if (userDto.getUsername() != null) {
             user.setUsername(userDto.getUsername());
         }
@@ -106,11 +128,29 @@ public class UserMapper {
         if (userDto.getEmail() != null) {
             user.setEmail(userDto.getEmail());
         }
+        if (userDto.getWorkTime() != null) {
+            user.setWorkTime(userDto.getWorkTime());
+        }
+
+        // Обновление списка locations
         if (userDto.getLocations() != null) {
-            user.setLocations(userDto.getLocations());
+            List<Location> updatedLocations = userDto.getLocations().stream()
+                    .map(locationDto -> {
+                        Location location = new Location();
+                        location.setId(locationDto.getId());
+                        location.setLatitude(locationDto.getLatitude());
+                        location.setLongitude(locationDto.getLongitude());
+                        location.setTimestamp(locationDto.getTimestamp());
+                        location.setDistance(locationDto.getDistance());
+                        location.setUser(user); // Устанавливаем связь с пользователем
+                        return location;
+                    })
+                    .collect(Collectors.toList());
+            user.setLocations(updatedLocations);
         }
 
         return user;
     }
+
 
 }

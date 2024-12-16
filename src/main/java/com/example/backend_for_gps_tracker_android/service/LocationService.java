@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface LocationService {
     LocationDto saveLocation(LocationDto locationDto);
+    List<Location> getLocations();
     List<Location> getLocationsByUserId(Long userId);
     void deleteAllLocationsByUserId(Long userId);
 }

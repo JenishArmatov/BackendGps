@@ -8,23 +8,15 @@ import java.util.List;
 public class UserDto {
 
     private Long id;
-
     private String username;
-
     private String firstName;
-
     private String lastName;
-
     private String middleName;
-
     private String phone;
-
     private String email;
-
+    private Long workTime;
+    private List<LocationDto> locations;
     private Long avatarId;
-
-    private List<Location> locations;
-
     private boolean isActive;
 
 }

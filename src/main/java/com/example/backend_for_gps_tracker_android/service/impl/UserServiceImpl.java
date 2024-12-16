@@ -30,12 +30,17 @@ import java.util.Set;
  * а также управления их ролями.
  */
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleService roleService;
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RoleService roleService) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.roleService = roleService;
+    }
 
 
     @Override
@@ -56,11 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Response<UserDto> getUserResponseById(Long id) {
+    public UserDto getUserResponseById(Long id) {
         User user = getById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         UserDto userDto = userMapper.toUserDto(user);
-        return new Response<>("User", userDto);
+        return userDto;
     }
 
     public User getByUsername(String username) {

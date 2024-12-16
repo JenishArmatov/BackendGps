@@ -23,14 +23,25 @@ public class UserController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Response<UserDto>> getById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
         log.info("[#getUserById] is calling");
 
         try {
-            Response<UserDto> response = userService.getUserResponseById(id);
+            UserDto response = userService.getUserResponseById(id);
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @GetMapping("/current-user")
+    public ResponseEntity<UserDto> getCurrentUser() {
+        log.info("[#getCurrentUser] is calling");
+
+        try {
+            UserDto userDto = userService.getUserResponseById(userService.getCurrentUser().getId());
+            return ResponseEntity.ok(userDto);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

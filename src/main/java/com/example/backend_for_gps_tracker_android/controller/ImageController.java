@@ -15,20 +15,20 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @PostMapping("/upload/{userId}")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Long userId) {
+    @PostMapping("/upload")
+    public ResponseEntity<Void> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
-            imageService.saveImage(file, userId);
-            return ResponseEntity.ok("Image uploaded successfully");
+            imageService.saveImage(file);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            System.out.println(e.getMessage() + ": Cant save image");
         }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long userId) {
+    @GetMapping("/user")
+    public ResponseEntity<byte[]> getImage() {
         try {
-            byte[] imageData = imageService.getImage(userId);
+            byte[] imageData = imageService.getImage();
             return ResponseEntity.ok(imageData);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage().getBytes());
@@ -40,7 +40,7 @@ public class ImageController {
     @DeleteMapping("/user/{userId}")
     public ResponseEntity<String> deleteImage(@PathVariable Long userId) {
         try {
-            imageService.deleteImage(userId);
+            imageService.deleteImage();
             return ResponseEntity.ok("Image deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());

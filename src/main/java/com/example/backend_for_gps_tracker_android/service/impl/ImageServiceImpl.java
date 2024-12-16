@@ -5,6 +5,7 @@ import com.example.backend_for_gps_tracker_android.entity.User;
 import com.example.backend_for_gps_tracker_android.repository.ImageRepository;
 import com.example.backend_for_gps_tracker_android.repository.UserRepository;
 import com.example.backend_for_gps_tracker_android.service.ImageService;
+import com.example.backend_for_gps_tracker_android.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,11 @@ public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
     private final UserRepository userRepository; // Assumes UserRepository exists
+    private final UserService userService;
 
     @Override
-    public Image saveImage(MultipartFile file, Long userId) throws Exception {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public Image saveImage(MultipartFile file) throws Exception {
+        User user = userService.getCurrentUser();
 
         Image image = Image.builder()
                 .fileName(file.getOriginalFilename())
@@ -41,9 +42,8 @@ public class ImageServiceImpl implements ImageService {
         return image;
     }
 
-    public byte[] getImage(Long userId) throws Exception {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public byte[] getImage() throws Exception {
+        User user = userService.getCurrentUser();
 
         if (user.getAvatar() == null || user.getAvatar().getData() == null) {
             throw new IllegalArgumentException("User does not have an avatar");
@@ -53,9 +53,8 @@ public class ImageServiceImpl implements ImageService {
         return user.getAvatar().getData();
     }
     @Override
-    public void deleteImage(Long userId) throws Exception {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void deleteImage() throws Exception {
+        User user = userService.getCurrentUser();
 
         if (user.getAvatar() == null) {
             throw new IllegalArgumentException("User does not have an avatar");

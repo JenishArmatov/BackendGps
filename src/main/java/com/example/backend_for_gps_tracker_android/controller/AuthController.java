@@ -55,6 +55,7 @@ public class AuthController {
     @PostMapping(value = "/sign-in")
     public ResponseEntity<JwtAuthenticationResponse> signIn(@RequestBody @Valid SignInRequest request) {
         log.info("[#signIn] is calling");
+        System.out.println(request.toString());
         JwtAuthenticationResponse response = authenticationService.signIn(request);
         return ResponseEntity.ok(response);
     }

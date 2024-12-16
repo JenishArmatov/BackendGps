@@ -17,4 +17,12 @@ public class SignInRequest {
      * Пароль пользователя для аутентификации.
      */
     private String password;
+
+    @Override
+    public String toString() {
+        return "SignInRequest{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
