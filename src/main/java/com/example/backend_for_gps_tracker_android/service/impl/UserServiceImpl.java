@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getAdmin() {
         User user = getCurrentUser();
         Set<Role> roles = user.getRoles();
-        Role adminRole = roleService.getRoleByName("ADMIN");
+        Role adminRole = roleService.getRoleByName("ROLE_ADMIN");
         roles.add(adminRole);
         user.setRoles(roles);
         userRepository.save(user);

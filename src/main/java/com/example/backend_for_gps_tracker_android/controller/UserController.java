@@ -55,7 +55,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-/*
+
   //  @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/{id}/role")
     public ResponseEntity<Response<UserDto>> setRole(@RequestParam String role, @PathVariable Long id) {
@@ -63,7 +63,7 @@ public class UserController {
         Response<UserDto> response = userService.setRole(role, id);
         return ResponseEntity.ok(response);
     }
-*/
+
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Response<UserDto>> update(@RequestBody UserDto userDto, @PathVariable Long id) {

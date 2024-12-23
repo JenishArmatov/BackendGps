@@ -6,7 +6,6 @@ import com.example.backend_for_gps_tracker_android.entity.Location;
 import com.example.backend_for_gps_tracker_android.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

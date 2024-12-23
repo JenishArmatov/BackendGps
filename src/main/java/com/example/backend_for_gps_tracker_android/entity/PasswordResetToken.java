@@ -20,12 +20,6 @@ import java.time.LocalDateTime;
 @Data
 public class PasswordResetToken {
 
-    /**
-     * Уникальный идентификатор токена.
-     * <p>
-     * Генерируется автоматически при создании нового токена.
-     * </p>
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

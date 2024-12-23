@@ -6,7 +6,6 @@ import java.util.List;
 
 @Data
 public class UserDto {
-
     private Long id;
     private String username;
     private String firstName;
@@ -18,5 +17,4 @@ public class UserDto {
     private List<LocationDto> locations;
     private Long avatarId;
     private boolean isActive;
-
 }

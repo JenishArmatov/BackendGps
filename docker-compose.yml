@@ -1,15 +1,14 @@
-version: '3.8'
 
 services:
   backend:
     build: .
     container_name: gps-tracker-backend
     ports:
-      - "8080:8080"
+      - "8082:8082"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/gps_tracker
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_MAIL_HOST: smtp.gmail.com
       SPRING_MAIL_PORT: 587
@@ -19,19 +18,38 @@ services:
       TOKEN_SIGNING_KEY: ${secretKey}
     depends_on:
       - db
+    networks:
+      - gps_networks
 
   db:
     image: postgres:latest
     container_name: gps-tracker-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: 12345
       POSTGRES_DB: gps_tracker
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - gps_networks
+
+  nginx_gps:
+    image: nginx
+    container_name: nginx_gps_container
+    ports:
+      - "6789:6789"
+    networks:
+      - gps_networks
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/ssl/certs/
 
 volumes:
   postgres_data:
     driver: local
+
+networks:
+  gps_networks:
+    driver: bridge

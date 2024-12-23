@@ -1,6 +1,7 @@
 package com.example.backend_for_gps_tracker_android.service.impl;
 
 import com.example.backend_for_gps_tracker_android.dto.Response;
+import com.example.backend_for_gps_tracker_android.dto.RoleDto;
 import com.example.backend_for_gps_tracker_android.entity.Role;
 import com.example.backend_for_gps_tracker_android.entity.User;
 import com.example.backend_for_gps_tracker_android.repository.RoleRepository;
@@ -22,18 +23,26 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
-    public void create(Role role, User currentUser) {
-        if (currentUser == null || currentUser.getRoles()
-                .stream().noneMatch(r -> r.getRoleName().equalsIgnoreCase("ADMIN"))) {
-            throw new RuntimeException("Only ADMIN can create a new role");
+    public void create(RoleDto roleDto) {
+        if (roleDto.getRoleNames() == null || roleDto.getRoleNames().isEmpty()) {
+            throw new IllegalArgumentException("Role names cannot be null or empty");
         }
-        if (role.getRoleName() != null) {
-            role.setRoleName(role.getRoleName().toUpperCase());
+
+        for (String roleName : roleDto.getRoleNames()) {
+            String normalizedRoleName = roleName.trim().toUpperCase();
+
+            // Проверяем, существует ли уже такая роль
+            if (roleRepository.findByRoleName(normalizedRoleName).isPresent()) {
+                continue; // Пропускаем существующую роль
+            }
+
+            // Создаем новую роль
+            Role role = Role.builder()
+                    .roleName(normalizedRoleName)
+                    .build();
+
+            roleRepository.save(role);
         }
-        if (roleRepository.findByRoleName(role.getRoleName()).isPresent()) {
-            throw new RuntimeException("Role already exists: " + role.getRoleName());
-        }
-        roleRepository.save(role);
     }
 
 

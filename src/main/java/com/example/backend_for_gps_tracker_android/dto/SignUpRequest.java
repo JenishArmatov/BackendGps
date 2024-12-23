@@ -11,42 +11,19 @@ import java.util.Set;
 @Data
 public class SignUpRequest {
 
-    /**
-     * Имя пользователя, используемое для аутентификации.
-     */
     private String username;
 
-    /**
-     * Имя пользователя.
-     */
     private String firstName;
 
-    /**
-     * Фамилия пользователя.
-     */
     private String lastName;
 
-    /**
-     * Отчество пользователя.
-     */
     private String middleName;
 
-    /**
-     * Номер телефона пользователя.
-     */
     private String phone;
 
-    /**
-     * Электронная почта пользователя.
-     */
     private String email;
 
-    /**
-     * Пароль пользователя для аутентификации.
-     */
     private String password;
-    /**
-     * Множество ролей, присваиваемых пользователю.
-     */
+
     private Set<Role> roles;
 }

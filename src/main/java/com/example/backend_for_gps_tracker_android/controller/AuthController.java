@@ -31,57 +31,39 @@ public class AuthController {
     private final AuthenticationServiceImpl authenticationService;
     private final PasswordResetService passwordResetService;
 
-    /**
-     * Регистрация нового пользователя.
-     *
-     * @param request объект запроса на регистрацию, содержащий данные пользователя
-     * @return ResponseEntity с JWT-ответом, содержащим информацию об аутентификации
-     */
-//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/sign-up")
     public ResponseEntity<JwtAuthenticationResponse> signUp(@RequestBody SignUpRequest request) {
         log.info("[#signUp] is calling");
-        JwtAuthenticationResponse response = authenticationService.signUp(request);
-        return ResponseEntity.ok(response);
+        try {
+            JwtAuthenticationResponse response = authenticationService.signUp(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    /**
-     * Вход пользователя в систему.
-     *
-     * @param request объект запроса на вход, содержащий данные для аутентификации
-     * @return ResponseEntity с JWT-ответом, содержащим информацию об аутентификации
-     */
 
     @PostMapping(value = "/sign-in")
     public ResponseEntity<JwtAuthenticationResponse> signIn(@RequestBody @Valid SignInRequest request) {
         log.info("[#signIn] is calling");
-        System.out.println(request.toString());
-        JwtAuthenticationResponse response = authenticationService.signIn(request);
-        return ResponseEntity.ok(response);
+        try {
+            JwtAuthenticationResponse response = authenticationService.signIn(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    /**
-     * Запрос на восстановление пароля.
-     *
-     * @param email адрес электронной почты пользователя, которому будет отправлена ссылка
-     *              для сброса пароля
-     * @return ResponseEntity с сообщением о статусе запроса
-     */
 
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        passwordResetService.sendResetPasswordEmail(email);
-        return ResponseEntity.ok("Ссылка для сброса пароля была отправлена на вашу электронную почту.");
+        try {
+            passwordResetService.sendResetPasswordEmail(email);
+            return ResponseEntity.ok("Ссылка для сброса пароля была отправлена на вашу электронную почту.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());        }
     }
-
-    /**
-     * Сброс пароля пользователя.
-     *
-     * @param token токен для сброса пароля
-     * @param newPassword новый пароль, который необходимо установить
-     * @return ResponseEntity с сообщением о статусе сброса пароля
-     */
-
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {

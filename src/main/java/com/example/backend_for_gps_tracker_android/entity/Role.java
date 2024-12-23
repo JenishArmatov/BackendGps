@@ -18,12 +18,6 @@ import java.util.Set;
 @Slf4j
 public class Role implements GrantedAuthority {
 
-    /**
-     * Уникальный идентификатор роли.
-     * <p>
-     * Генерируется автоматически при создании новой роли.
-     * </p>
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

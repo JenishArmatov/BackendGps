@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-
 @RestController
 @RequestMapping("/api/timer")
 @RequiredArgsConstructor
@@ -25,8 +23,6 @@ public class TimerController {
         timerService.resetTimer();
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
-
-
 
     @GetMapping("/is-runnig")
     public ResponseEntity<Boolean> isRunning() {

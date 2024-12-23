@@ -20,7 +20,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("123456789")
+    @Value("${token.signing.key}")
     private String jwtSigningKey;
 
 
