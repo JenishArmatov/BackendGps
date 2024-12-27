@@ -14,6 +14,7 @@ COPY src ./src
 # Собираем проект с помощью Maven
 RUN mvn clean package -DskipTests
 
+
 # Открываем порт 8080
 EXPOSE 8082
 
