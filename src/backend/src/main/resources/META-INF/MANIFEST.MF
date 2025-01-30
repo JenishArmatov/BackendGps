@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.example.backend_for_gps_tracker_android.BackendForGpsTra
+ ckerAndroidApplication
+

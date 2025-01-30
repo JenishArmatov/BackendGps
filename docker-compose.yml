@@ -1,7 +1,7 @@
 
 services:
   backend:
-    build: .
+    build: src/backend
     container_name: gps-tracker-backend
     ports:
       - "8082:8082"
