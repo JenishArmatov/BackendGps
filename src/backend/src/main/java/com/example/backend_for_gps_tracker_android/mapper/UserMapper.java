@@ -75,6 +75,7 @@ public class UserMapper {
                     .collect(Collectors.toList());
             userDto.setLocations(locationDtos);
         }
+        userDto.setRole(user.getRoles().get(0).getRoleName());
 
         userDto.setActive(user.isActive());
         return userDto;

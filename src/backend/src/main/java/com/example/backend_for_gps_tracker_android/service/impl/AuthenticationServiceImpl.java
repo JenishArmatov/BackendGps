@@ -14,7 +14,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,7 +44,7 @@ public class AuthenticationServiceImpl {
      */
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
         log.info("Sign up request: {}", request);
-        Set<Role> roles = new HashSet<>();
+        List<Role> roles = new ArrayList<>();
         for (Role role : request.getRoles()) {
             Role fetchedRole = roleRepository.findByRoleName(role.getRoleName())
                     .orElseThrow(() -> new RuntimeException("Role not found: " + role.getRoleName()));

@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,6 +39,8 @@ public class AdminUserInitializer implements CommandLineRunner {
         }
 
         Role adminRole = adminRoleOpt.get();
+        List <Role> roles = new ArrayList<>();
+        roles.add(adminRole);
         System.out.println("=== ROLE_ADMIN найдена ===");
 
         if (userRepository.findByUsername("admin").isEmpty()) {
@@ -50,7 +54,7 @@ public class AdminUserInitializer implements CommandLineRunner {
                     .email("admin@example.com")
                     .password(passwordEncoder.encode("admin123"))
                     .isActive(true)
-                    .roles(Set.of(adminRole))
+                    .roles(roles)
                     .build();
 
             userRepository.save(admin);

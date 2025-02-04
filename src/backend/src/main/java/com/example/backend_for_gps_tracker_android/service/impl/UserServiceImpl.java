@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Deprecated
     public User getAdmin() {
         User user = getCurrentUser();
-        Set<Role> roles = user.getRoles();
+        List<Role> roles = user.getRoles();
         Role adminRole = roleService.getRoleByName("ROLE_ADMIN");
         roles.add(adminRole);
         user.setRoles(roles);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (role == null) {
             throw new RuntimeException("Role not found: " + roleName);
         }
-        Set<Role> currentRoles = user.getRoles();
+        List<Role> currentRoles = user.getRoles();
         currentRoles.add(role);
         user.setRoles(currentRoles);
         userRepository.save(user);
