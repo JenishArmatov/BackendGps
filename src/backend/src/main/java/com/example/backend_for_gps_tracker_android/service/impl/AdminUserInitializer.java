@@ -27,6 +27,7 @@ public class AdminUserInitializer implements CommandLineRunner {
         System.out.println("=== AdminUserInitializer ЗАПУСКАЕТСЯ ===");
 
         createRoleIfNotExists("ROLE_ADMIN");
+        createRoleIfNotExists("ROLE_MANAGER");
         createRoleIfNotExists("ROLE_USER");
 
         Optional<Role> adminRoleOpt = roleRepository.findByRoleName("ROLE_ADMIN");
