@@ -6,6 +6,7 @@ import com.example.backend_for_gps_tracker_android.service.impl.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class UserController {
     }
 
 
-  //  @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/{id}/role")
     public ResponseEntity<Response<UserDto>> setRole(@RequestParam String role, @PathVariable Long id) {
         log.info("[#setRole] is calling");
