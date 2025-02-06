@@ -14,7 +14,6 @@ public class UserDto {
     private String phone;
     private String email;
     private Long workTime;
-    private List<LocationDto> locations;
     private String role;
     private Long avatarId;
     private boolean isActive;

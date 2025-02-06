@@ -10,6 +10,7 @@ public class TaskMapper {
     public TaskDto toDto(Task task) {
         TaskDto dto = new TaskDto();
         dto.setId(task.getId());
+        dto.setCreatorName(task.getCreatorName());
         dto.setRoutName(task.getRoutName());
         dto.setDescription(task.getDescription());
         dto.setTimestamp(task.getTimestamp());
@@ -21,6 +22,7 @@ public class TaskMapper {
     public Task toEntity(TaskDto dto) {
         Task task = new Task();
         task.setId(dto.getId());
+        task.setCreatorName(dto.getCreatorName());
         task.setRoutName(dto.getRoutName());
         task.setDescription(dto.getDescription());
         task.setTimestamp(dto.getTimestamp());

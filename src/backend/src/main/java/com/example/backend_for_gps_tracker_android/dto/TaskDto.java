@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Data
 public class TaskDto {
     private Long id;
+    private String creatorName;
     private String routName;
     private String description;
     private LocalDateTime timestamp;

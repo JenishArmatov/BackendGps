@@ -24,7 +24,6 @@ public class UserMapper {
 
     /**
      * Преобразует объект {@link User} в объект {@link UserDto}.
-     *
      * @param user Сущность, которую нужно преобразовать. Может быть null.
      * @return Преобразованный объект {@link UserDto} или null, если входной объект user равен null.
      */
@@ -59,22 +58,6 @@ public class UserMapper {
             userDto.setWorkTime(user.getWorkTime());
         }
 
-        // Преобразование списка locations
-        if (user.getLocations() != null) {
-            List<LocationDto> locationDtos = user.getLocations().stream()
-                    .map(location -> {
-                        LocationDto locationDto = new LocationDto();
-                        locationDto.setId(location.getId());
-                        locationDto.setLatitude(location.getLatitude());
-                        locationDto.setLongitude(location.getLongitude());
-                        locationDto.setTimestamp(location.getTimestamp());
-                        locationDto.setDistance(location.getDistance());
-                        locationDto.setUserId(location.getUser().getId());
-                        return locationDto;
-                    })
-                    .collect(Collectors.toList());
-            userDto.setLocations(locationDtos);
-        }
         userDto.setRole(user.getRoles().get(0).getRoleName());
 
         userDto.setActive(user.isActive());
@@ -131,23 +114,6 @@ public class UserMapper {
         }
         if (userDto.getWorkTime() != null) {
             user.setWorkTime(userDto.getWorkTime());
-        }
-
-        // Обновление списка locations
-        if (userDto.getLocations() != null) {
-            List<Location> updatedLocations = userDto.getLocations().stream()
-                    .map(locationDto -> {
-                        Location location = new Location();
-                        location.setId(locationDto.getId());
-                        location.setLatitude(locationDto.getLatitude());
-                        location.setLongitude(locationDto.getLongitude());
-                        location.setTimestamp(locationDto.getTimestamp());
-                        location.setDistance(locationDto.getDistance());
-                        location.setUser(user); // Устанавливаем связь с пользователем
-                        return location;
-                    })
-                    .collect(Collectors.toList());
-            user.setLocations(updatedLocations);
         }
 
         return user;

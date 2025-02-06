@@ -1,6 +1,8 @@
 package com.example.backend_for_gps_tracker_android.entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +13,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @NotBlank(message = "Creator name is required")
+    private String creatorName; // Имя создателя задачи
+
+    @NotBlank(message = "Task name is required")
+    private String taskName; // Название задачи
+
+    @NotBlank(message = "Route name is required")
     private String routName; // Название адреса
     private String description; // Описание
     private LocalDateTime timestamp; // Время фиксации

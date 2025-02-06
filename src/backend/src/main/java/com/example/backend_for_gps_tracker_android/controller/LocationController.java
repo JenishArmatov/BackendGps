@@ -2,6 +2,7 @@ package com.example.backend_for_gps_tracker_android.controller;
 
 
 import com.example.backend_for_gps_tracker_android.dto.LocationDto;
+import com.example.backend_for_gps_tracker_android.dto.LocationRequest;
 import com.example.backend_for_gps_tracker_android.entity.Location;
 import com.example.backend_for_gps_tracker_android.service.LocationService;
 import lombok.RequiredArgsConstructor;
@@ -13,35 +14,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/locations")
-@RequiredArgsConstructor
 public class LocationController {
+
     private final LocationService locationService;
 
+    public LocationController(LocationService locationService) {
+        this.locationService = locationService;
+    }
+
     @PostMapping
-    public ResponseEntity<LocationDto> saveLocation(
-            @RequestBody LocationDto location) {
-        LocationDto savedLocation = locationService.saveLocation(location);
-        return ResponseEntity.ok(savedLocation);
+    public ResponseEntity<LocationDto> saveLocation(@RequestBody LocationDto locationDto) {
+        LocationDto createdLocation = locationService.saveLocation(locationDto);
+        return ResponseEntity.ok(createdLocation);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Location>> getLocationsByUserId(@PathVariable Long userId) {
-        List<Location> locations = locationService.getLocationsByUserId(userId);
-        return ResponseEntity.ok(locations);
-    }
     @GetMapping
-    public ResponseEntity<List<Location>> getLocations() {
-        List<Location> locations = locationService.getLocations();
+    public ResponseEntity<List<LocationDto>> getLocationsByUserId(@RequestBody LocationRequest request) {
+        List<LocationDto> locations = locationService.getLocationsByUserIdAndDate(request);
         return ResponseEntity.ok(locations);
-    }
-
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteLocation(@PathVariable Long userId) {
-        try{
-            locationService.deleteAllLocationsByUserId(userId);
-            return ResponseEntity.ok("Deleted all locations");
-        }catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Can't delete location: " + e.getMessage());
-        }
     }
 }
