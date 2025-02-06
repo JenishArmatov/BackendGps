@@ -32,9 +32,9 @@ public class TaskController {
     }
 
     // 🔹 Получить все задачи пользователя по userId
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<TaskDto>> getTasksByUserId(@PathVariable Long userId) {
-        List<TaskDto> tasks = taskService.getTasksByUserId(userId);
+    @GetMapping("/current-user")
+    public ResponseEntity<List<TaskDto>> getTasksByUserId() {
+        List<TaskDto> tasks = taskService.getTasksByUserId();
         return ResponseEntity.ok(tasks);
     }
 

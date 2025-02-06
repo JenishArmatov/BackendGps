@@ -4,6 +4,7 @@ import com.example.backend_for_gps_tracker_android.dto.TaskDto;
 import com.example.backend_for_gps_tracker_android.entity.Task;
 import com.example.backend_for_gps_tracker_android.mapper.TaskMapper;
 import com.example.backend_for_gps_tracker_android.repository.TaskRepository;
+import com.example.backend_for_gps_tracker_android.repository.UserRepository;
 import com.example.backend_for_gps_tracker_android.service.TaskService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +17,14 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final UserRepository userRepository;
+    private final UserServiceImpl userServiceImpl;
 
-    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper) {
+    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper, UserRepository userRepository, UserServiceImpl userServiceImpl) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
+        this.userRepository = userRepository;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -37,8 +42,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasksByUserId(Long userId) {
-        return taskRepository.findByUserId(userId)
+    public List<TaskDto> getTasksByUserId() {
+        return taskRepository.findByUserId(userServiceImpl.getCurrentUser().getId())
                 .stream()
                 .map(taskMapper::toDto)
                 .collect(Collectors.toList());

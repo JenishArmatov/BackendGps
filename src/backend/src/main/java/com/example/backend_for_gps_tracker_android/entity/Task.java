@@ -29,4 +29,9 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // Связь с пользователем
     private User user;
+
+    @PrePersist
+    public void setTimestamp() {
+        this.timestamp = LocalDateTime.now();
+    }
 }
