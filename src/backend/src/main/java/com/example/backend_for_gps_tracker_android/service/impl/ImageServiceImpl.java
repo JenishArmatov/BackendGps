@@ -60,7 +60,7 @@ public class ImageServiceImpl implements ImageService {
             throw new IllegalArgumentException("User does not have an avatar");
         }
 
-        imageRepository.deleteById(user.getId());
+        imageRepository.deleteById(user.getAvatar().getId());
         user.setAvatar(null);
         userRepository.save(user);
     }
