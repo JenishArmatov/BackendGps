@@ -37,8 +37,8 @@ public class ImageController {
         }
     }
 
-    @DeleteMapping("/user/{userId}")
-    public ResponseEntity<String> deleteImage(@PathVariable Long userId) {
+    @DeleteMapping("/user")
+    public ResponseEntity<String> deleteImage() {
         try {
             imageService.deleteImage();
             return ResponseEntity.ok("Image deleted successfully");
